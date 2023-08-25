@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.21)
 project(interpreter)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_executable(
         interpreter
         main.cpp
-        Classes/Code/Block.cpp
-        Classes/Header/Block.h
-        Classes/Code/PrintStmt.cpp
-        Classes/Header/PrintStmt.h
-        Classes/Code/SetStmt.cpp Classes/Header/SetStmt.h Classes/Code/InputStmt.cpp Classes/Header/InputStmt.h Classes/Code/WhileStmt.cpp Classes/Header/WhileStmt.h Classes/Code/IfStmt.cpp Classes/Header/IfStmt.h Classes/Code/NumExpr.cpp Classes/Header/NumExpr.h Classes/Code/Operator.cpp Classes/Header/Operator.h Classes/Code/Number.cpp Classes/Header/Number.h Classes/Code/Variable.cpp Classes/Header/Variable.h Classes/Code/BoolExpr.cpp Classes/Header/BoolExpr.h Classes/Code/RelOp.cpp Classes/Header/RelOp.h Classes/Code/BoolConst.cpp Classes/Header/BoolConst.h Classes/Code/BoolOp.cpp Classes/Header/BoolOp.h)
+        Classes/Program/Code/Block.cpp
+        Classes/Program/Header/Block.h
+        Classes/Program/Code/PrintStmt.cpp
+        Classes/Program/Header/PrintStmt.h
+        Classes/Program/Code/SetStmt.cpp Classes/Program/Header/SetStmt.h Classes/Program/Code/InputStmt.cpp Classes/Program/Header/InputStmt.h Classes/Program/Code/WhileStmt.cpp Classes/Program/Header/WhileStmt.h Classes/Program/Code/IfStmt.cpp Classes/Program/Header/IfStmt.h Classes/Program/Code/NumExpr.cpp Classes/Program/Header/NumExpr.h Classes/Program/Code/Operator.cpp Classes/Program/Header/Operator.h Classes/Program/Code/Number.cpp Classes/Program/Header/Number.h Classes/Program/Code/Variable.cpp Classes/Program/Header/Variable.h Classes/Program/Code/BoolExpr.cpp Classes/Program/Header/BoolExpr.h Classes/Program/Code/RelOp.cpp Classes/Program/Header/RelOp.h Classes/Program/Code/BoolConst.cpp Classes/Program/Header/BoolConst.h Classes/Program/Code/BoolOp.cpp Classes/Program/Header/BoolOp.h Classes/Token/Token.cpp Classes/Token/Token.h Classes/Token/Token.cpp Classes/Token/Token.h Classes/Token/Tokenizer.cpp Classes/Token/Tokenizer.h Classes/Error/Exceptions.h Classes/Helpers/StringHelper.h)
