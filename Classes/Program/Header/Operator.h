@@ -6,7 +6,21 @@
 #define INTERPRETER_OPERATOR_H
 
 
-class Operator {
+#include "NumExpr.h"
+
+class Operator : public NumExpr {
+
+public:
+
+    enum OpCode { PLUS, MINUS, TIMES, DIV };
+
+    Operator(OpCode o, NumExpr* lop, NumExpr* rop) :
+            op{ o }, left{ lop }, right{ rop } { }
+
+private:
+    OpCode      op;
+    NumExpr* left;
+    NumExpr* right;
 
 };
 

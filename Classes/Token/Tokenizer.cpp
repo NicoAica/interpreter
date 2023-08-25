@@ -6,6 +6,7 @@
 
 #include <string>
 #include <iostream>
+#include <algorithm>
 
 #include "../Error/Exceptions.h"
 #include "../Helpers/StringHelper.h"
@@ -40,51 +41,21 @@ void Tokenizer::tokenizeInputFile(std::ifstream& inputFile, std::vector<Token>& 
 
             if (StringHelper::isNumber(tmp)){
                 inputTokens.emplace_back(Token::NUM, Token::id2word[Token::NUM]);
-            } else if (tmp == "SET") {
-                inputTokens.emplace_back(Token::SET, Token::id2word[Token::SET]);
-            } else if (tmp == "PRINT") {
-                inputTokens.emplace_back(Token::PRINT, Token::id2word[Token::PRINT]);
-            } else if (tmp == "INPUT") {
-                inputTokens.emplace_back(Token::INPUT, Token::id2word[Token::INPUT]);
-            } else if (tmp == "IF") {
-                inputTokens.emplace_back(Token::IF, Token::id2word[Token::IF]);
-            } else if (tmp == "WHILE") {
-                inputTokens.emplace_back(Token::WHILE, Token::id2word[Token::WHILE]);
-            } else if (tmp == "ADD") {
-                inputTokens.emplace_back(Token::ADD, Token::id2word[Token::ADD]);
-            } else if (tmp == "SUB") {
-                inputTokens.emplace_back(Token::SUB, Token::id2word[Token::SUB]);
-            } else if (tmp == "MUL") {
-                inputTokens.emplace_back(Token::MUL, Token::id2word[Token::MUL]);
-            } else if (tmp == "DIV") {
-                inputTokens.emplace_back(Token::DIV, Token::id2word[Token::DIV]);
-            } else if (tmp == "GT") {
-                inputTokens.emplace_back(Token::GT, Token::id2word[Token::GT]);
-            } else if (tmp == "LT") {
-                inputTokens.emplace_back(Token::LT, Token::id2word[Token::LT]);
-            } else if (tmp == "EQ") {
-                inputTokens.emplace_back(Token::EQ, Token::id2word[Token::EQ]);
-            } else if (tmp == "AND") {
-                inputTokens.emplace_back(Token::AND, Token::id2word[Token::AND]);
-            } else if (tmp == "OR") {
-                inputTokens.emplace_back(Token::OR, Token::id2word[Token::OR]);
-            } else if (tmp == "NOT") {
-                inputTokens.emplace_back(Token::NOT, Token::id2word[Token::NOT]);
-            } else if (tmp == "TRUE") {
-                inputTokens.emplace_back(Token::TRUE, Token::id2word[Token::TRUE]);
-            } else if (tmp == "FALSE") {
-                inputTokens.emplace_back(Token::FALSE, Token::id2word[Token::FALSE]);
-            } else if (tmp == "BLOCK") {
-                inputTokens.emplace_back(Token::BLOCK, Token::id2word[Token::BLOCK]);
             } else {
-                for (char & c : tmp){
-                    if (!std::isalpha(c)){
-                        std::stringstream _tmp{};
-                        _tmp << "Errore lessicale sul simbolo: " << c;
-                        throw LexicalError(_tmp.str());
+                auto it = std::find(std::begin(Token::id2word), std::end(Token::id2word), tmp);
+                if (it != std::end(Token::id2word)) {
+                    std::size_t position = std::distance(std::begin(Token::id2word), it);
+                    inputTokens.emplace_back(position, Token::id2word[position]);
+                } else {
+                    for (char & c : tmp){
+                        if (!std::isalpha(c)){
+                            std::stringstream _tmp{};
+                            _tmp << "Errore lessicale sul simbolo: " << c;
+                            throw LexicalError(_tmp.str());
+                        }
                     }
+                    inputTokens.emplace_back(Token::VARIABLE, Token::id2word[Token::VARIABLE]);
                 }
-                inputTokens.emplace_back(Token::VARIABLE, Token::id2word[Token::VARIABLE]);
             }
 
             tmp = "";

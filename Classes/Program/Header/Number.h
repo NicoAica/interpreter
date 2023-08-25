@@ -6,8 +6,20 @@
 #define INTERPRETER_NUMBER_H
 
 
-class Number {
+#include "NumExpr.h"
 
+class Number: public NumExpr {
+public:
+
+    // Single-argument constructors must be marked explicit to avoid unintentional implicit conversions
+    explicit Number(int v) : value{ v } { }
+    ~Number() = default;
+
+    Number(const Number& other) = default;
+    Number& operator=(const Number& other) = default;
+
+private:
+    int value;
 };
 
 

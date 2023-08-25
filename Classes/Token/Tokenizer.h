@@ -19,7 +19,7 @@ public:
     }
 
 private:
-    void tokenizeInputFile(std::ifstream& inputFile, std::vector<Token>& inputTokens);
+    static void tokenizeInputFile(std::ifstream& inputFile, std::vector<Token>& inputTokens);
 
 };
 
