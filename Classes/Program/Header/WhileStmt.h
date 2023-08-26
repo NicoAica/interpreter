@@ -6,8 +6,17 @@
 #define INTERPRETER_WHILESTMT_H
 
 
+#include "BoolExpr.h"
+#include "Block.h"
+
 class WhileStmt {
 
+public:
+    WhileStmt(BoolExpr* c, Block* b): condition{c}, block{b} {}
+
+private:
+    BoolExpr* condition;
+    Block* block;
 };
 
 

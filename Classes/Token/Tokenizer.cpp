@@ -40,7 +40,7 @@ void Tokenizer::tokenizeInputFile(std::ifstream& inputFile, std::vector<Token>& 
             }
 
             if (StringHelper::isNumber(tmp)){
-                inputTokens.emplace_back(Token::NUM, Token::id2word[Token::NUM]);
+                inputTokens.emplace_back(Token::NUM, tmp);
             } else {
                 auto it = std::find(std::begin(Token::id2word), std::end(Token::id2word), tmp);
                 if (it != std::end(Token::id2word)) {
@@ -50,14 +50,13 @@ void Tokenizer::tokenizeInputFile(std::ifstream& inputFile, std::vector<Token>& 
                     for (char & c : tmp){
                         if (!std::isalpha(c)){
                             std::stringstream _tmp{};
-                            _tmp << "Errore lessicale sul simbolo: " << c;
+                            _tmp << "Errore lessicale in: " << tmp;
                             throw LexicalError(_tmp.str());
                         }
                     }
-                    inputTokens.emplace_back(Token::VARIABLE, Token::id2word[Token::VARIABLE]);
+                    inputTokens.emplace_back(Token::VARIABLE, tmp);
                 }
             }
-
             tmp = "";
         }
     }

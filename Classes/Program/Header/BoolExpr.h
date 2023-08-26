@@ -6,6 +6,8 @@
 #define INTERPRETER_BOOLEXPR_H
 
 
+#include "NumExpr.h"
+
 class BoolExpr {
 
 };

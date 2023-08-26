@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
 
-#include "Classes/Program/Header/Block.h"
 #include "Classes/Token/Tokenizer.h"
-#include "Classes/Helpers/StringHelper.h"
 #include "Classes/Error/Exceptions.h"
+#include "Classes/Manager/Manager.h"
 
 int main(int argc, char* argv[]) {
 
@@ -34,7 +33,7 @@ int main(int argc, char* argv[]) {
             std::cout << inputToken << std::endl;
         }
 
-        inputFile.close();
+
     } catch (LexicalError& le) {
         std::cerr << "Errore in fase di analisi lessicale" << std::endl;
         std::cerr << le.what() << std::endl;
@@ -44,6 +43,15 @@ int main(int argc, char* argv[]) {
         std::cerr << exc.what() << std::endl;
         return EXIT_FAILURE;
     }
+
+    BlockManager blockManager;
+    BoolExprManager boolExpressionManager;
+    NumExprManager numberExpressionManager;
+    StatementManager statementManager;
+    ProgramManager programManager;
+
+
+
 
 
 

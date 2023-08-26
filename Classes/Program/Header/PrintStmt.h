@@ -6,7 +6,15 @@
 #define INTERPRETER_PRINTSTMT_H
 
 
+#include "NumExpr.h"
+
 class PrintStmt {
+public:
+
+    explicit PrintStmt(NumExpr* n) : number{n} {}
+
+private:
+    NumExpr* number;
 
 };
 

@@ -6,7 +6,17 @@
 #define INTERPRETER_SETSTMT_H
 
 
+#include "Variable.h"
+#include "NumExpr.h"
+
 class SetStmt {
+public:
+
+    SetStmt(NumExpr* n, Variable* v) : number{n}, variable{v} {}
+
+private:
+    NumExpr* number;
+    Variable* variable;
 
 };
 

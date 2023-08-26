@@ -6,8 +6,19 @@
 #define INTERPRETER_BOOLOP_H
 
 
-class BoolOp {
+#include "BoolExpr.h"
 
+class BoolOp {
+public:
+     enum BoolOpCode {};
+
+     BoolOp(BoolOpCode o, BoolExpr* l, BoolExpr* r) : op{ o }, left{ l }, right{ r } { };
+     BoolOp(BoolOpCode o, BoolExpr* l) : op{ o }, left{ l } { };
+
+private:
+     BoolOpCode op;
+     BoolExpr* left;
+     BoolExpr* right;
 };
 
 
