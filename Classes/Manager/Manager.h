@@ -41,28 +41,22 @@ public:
     };
 };
 
-
-class NumExprManager : public Manager {
+class ProgramManager : public Manager {
 public:
-    NumExpr* makeOperator(Operator::OpCode op, NumExpr* l, NumExpr* r) {
-        auto* o = reinterpret_cast<NumExpr *>(new Operator(op, l, r));
-        numExprAllocated.push_back(o);
-        return o;
+    Program* makeProgram(Block* _b) {
+        auto* b = new Program(_b);
+        programAllocated.push_back(b);
+        return b;
     }
 
-    NumExpr* makeNumber(int value) {
-        auto* n = reinterpret_cast<NumExpr *>(new Number(value));
-        numExprAllocated.push_back(n);
-        return n;
-    }
-
-    ~NumExprManager() {
-        clearMemory(numExprAllocated);
+    ~ProgramManager() {
+        clearMemory(programAllocated);
     };
 
 private:
-    std::vector<NumExpr*> numExprAllocated;
+    std::vector<Program*> programAllocated;
 };
+
 
 class BlockManager : public Manager {
 public:
@@ -154,20 +148,26 @@ private:
     std::vector<Statement*> statementAllocated;
 };
 
-class ProgramManager : public Manager {
+class NumExprManager : public Manager {
 public:
-    Program* makeProgram(Block* _b) {
-        auto* b = new Program(_b);
-        programAllocated.push_back(b);
-        return b;
+    NumExpr* makeOperator(Operator::OpCode op, NumExpr* l, NumExpr* r) {
+        auto* o = reinterpret_cast<NumExpr *>(new Operator(op, l, r));
+        numExprAllocated.push_back(o);
+        return o;
     }
 
-    ~ProgramManager() {
-        clearMemory(programAllocated);
+    NumExpr* makeNumber(int value) {
+        auto* n = reinterpret_cast<NumExpr *>(new Number(value));
+        numExprAllocated.push_back(n);
+        return n;
+    }
+
+    ~NumExprManager() {
+        clearMemory(numExprAllocated);
     };
 
 private:
-    std::vector<Program*> programAllocated;
+    std::vector<NumExpr*> numExprAllocated;
 };
 
 #endif //INTERPRETER_MANAGER_H

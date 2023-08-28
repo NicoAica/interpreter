@@ -13,7 +13,7 @@ public:
      enum BoolOpCode {};
 
      BoolOp(BoolOpCode o, BoolExpr* l, BoolExpr* r) : op{ o }, left{ l }, right{ r } { };
-     BoolOp(BoolOpCode o, BoolExpr* l) : op{ o }, left{ l } { };
+     BoolOp(BoolOpCode o, BoolExpr* l) : op{ o }, left{ l }, right{nullptr} { };
 
 private:
      BoolOpCode op;
