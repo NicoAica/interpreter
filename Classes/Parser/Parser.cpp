@@ -26,12 +26,12 @@ Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr)
         Statement* _statement = nullptr;
 
         if (TokenHelper::verifyStatementNotBlock(tokenItr->tag)){
-            //_statement = statementParse(tokenItr);
+            _statement = recursiveParseStatement(tokenItr);
             //_block->pushback(_statement);
         } else if (tokenItr->tag == Token::BLOCK){
             safe_next(tokenItr);
             do {
-                //_statement = statementParse(tokenItr);
+                _statement = recursiveParseStatement(tokenItr);
                 safe_next(tokenItr);
                 //_block->pushback(_statement);
             } while (tokenItr->tag != Token::RP);
@@ -61,26 +61,41 @@ Statement* Parser::recursiveParseStatement(std::vector<Token>::const_iterator &t
                 safe_next(tokenItr);
                 Block* _falseBlock = recursiveParseBlock(tokenItr);
                 safe_next(tokenItr);
-
                 _statement = statementManager->makeIfStmt(_boolExpr, _trueBlock, _falseBlock);
-
                 break;
             }
             case Token::INPUT: {
                 safe_next(tokenItr);
-
-                NumExpr* _numExpr = nullptr; //recursiveParseNumExpr(tokenItr);
-
-                // TODO: Da finire introducendo le variabili
-
-                _statement = statementManager->makePrintStmt(_numExpr);
+                Variable* _variable = nullptr; //recursiveParseVariable(tokenItr);
+                // TODO: introdurre le variabili
+                _statement = statementManager->makeInputStmt(_variable);
                 break;
             }
             case Token::PRINT: {
-
+                safe_next(tokenItr);
+                NumExpr* _numExpr = nullptr; //recursiveParseNumExpr(tokenItr);
+                _statement = statementManager->makePrintStmt(_numExpr);
+                break;
+            }
+            case Token::SET: {
+                safe_next(tokenItr);
+                Variable* _variable = nullptr; //recursiveParseVariable(tokenItr);
+                // TODO: introdurre le variabili
+                NumExpr* _numExpr = nullptr; //recursiveParseNumExpr(tokenItr);
+                _statement = statementManager->makeSetStmt(_numExpr, _variable);
+                break;
+            }
+            case Token::WHILE: {
+                safe_next(tokenItr);
+                BoolExpr* _boolExpr = nullptr;//recursiveParseBoolExpr(tokenItr);
+                Block* _block = recursiveParseBlock(tokenItr);
+                safe_next(tokenItr);
+                _statement = statementManager->makeWhileStmt(_boolExpr, _block);
+                break;
             }
 
         }
 
+        return _statement;
     }
 }
