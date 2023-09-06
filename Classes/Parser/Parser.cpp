@@ -11,18 +11,18 @@
 #include "../Helpers/TokenHelper.h"
 
 Program* Parser::recursiveParse(std::vector<Token>::const_iterator &tokenItr) {
-    return programManager->makeProgram(recursiveParseBlock(tokenItr));
+    return programManager.makeProgram(recursiveParseBlock(tokenItr));
 }
 
 Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr){
     if (tokenItr->tag != Token::LP) {
         std::stringstream _tmp{};
         _tmp << "Mancanza di LP";
-        throw LexicalError(_tmp.str());
+        throw ParseError(_tmp.str());
     } else {
         safe_next(tokenItr);
 
-        Block* _block = blockManager->makeBlock();
+        Block* _block = blockManager.makeBlock();
         Statement* _statement = nullptr;
 
         if (TokenHelper::verifyStatementNotBlock(tokenItr->tag)){
@@ -38,7 +38,7 @@ Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr)
         } else {
             std::stringstream _tmp{};
             _tmp << "Errore in block";
-            throw LexicalError(_tmp.str());
+            throw ParseError(_tmp.str());
         }
         return _block;
     }
@@ -48,7 +48,7 @@ Statement* Parser::recursiveParseStatement(std::vector<Token>::const_iterator &t
     if (tokenItr->tag != Token::LP) {
         std::stringstream _tmp{};
         _tmp << "Mancanza di LP";
-        throw LexicalError(_tmp.str());
+        throw ParseError(_tmp.str());
     } else {
         safe_next(tokenItr);
         Statement* _statement = nullptr;
@@ -61,41 +61,151 @@ Statement* Parser::recursiveParseStatement(std::vector<Token>::const_iterator &t
                 safe_next(tokenItr);
                 Block* _falseBlock = recursiveParseBlock(tokenItr);
                 safe_next(tokenItr);
-                _statement = statementManager->makeIfStmt(_boolExpr, _trueBlock, _falseBlock);
+                _statement = statementManager.makeIfStmt(_boolExpr, _trueBlock, _falseBlock);
                 break;
             }
             case Token::INPUT: {
                 safe_next(tokenItr);
                 Variable* _variable = nullptr; //recursiveParseVariable(tokenItr);
                 // TODO: introdurre le variabili
-                _statement = statementManager->makeInputStmt(_variable);
+                _statement = statementManager.makeInputStmt(_variable);
                 break;
             }
             case Token::PRINT: {
                 safe_next(tokenItr);
-                NumExpr* _numExpr = nullptr; //recursiveParseNumExpr(tokenItr);
-                _statement = statementManager->makePrintStmt(_numExpr);
+                NumExpr* _numExpr = recursiveParseNumExpr(tokenItr);
+                _statement = statementManager.makePrintStmt(_numExpr);
                 break;
             }
             case Token::SET: {
                 safe_next(tokenItr);
-                Variable* _variable = nullptr; //recursiveParseVariable(tokenItr);
+
+                //Variable* _variable = recursiveParseVariable(tokenItr);
                 // TODO: introdurre le variabili
-                NumExpr* _numExpr = nullptr; //recursiveParseNumExpr(tokenItr);
-                _statement = statementManager->makeSetStmt(_numExpr, _variable);
+                NumExpr* numExpr = recursiveParseNumExpr(tokenItr);
+                NumExpr* _numExpr = recursiveParseNumExpr(tokenItr);
+                _statement = statementManager.makeSetStmt(_numExpr, (Variable*) numExpr );
                 break;
             }
             case Token::WHILE: {
                 safe_next(tokenItr);
-                BoolExpr* _boolExpr = nullptr;//recursiveParseBoolExpr(tokenItr);
+                BoolExpr* _boolExpr = recursiveParseBoolExpr(tokenItr);
                 Block* _block = recursiveParseBlock(tokenItr);
                 safe_next(tokenItr);
-                _statement = statementManager->makeWhileStmt(_boolExpr, _block);
+                _statement = statementManager.makeWhileStmt(_boolExpr, _block);
                 break;
             }
-
+            default: {
+                std::stringstream _tmp{};
+                _tmp << "Errore definizione in block";
+                throw LexicalError(_tmp.str());
+            }
         }
 
+        if (tokenItr->tag != Token::RP) {
+            std::stringstream _tmp{};
+            _tmp << "Mancanza di RP";
+            throw ParseError(_tmp.str());
+        }
+
+
         return _statement;
+    }
+}
+
+NumExpr* Parser::recursiveParseNumExpr(std::vector<Token>::const_iterator &tokenItr){
+    if (tokenItr->tag != Token::LP) {
+        if (tokenItr->tag == Token::NUM){
+            int _number = std::stoi(tokenItr->word);
+            safe_next(tokenItr);
+            return numExprManager.makeNumber(_number);
+        } else if (tokenItr->tag == Token::VARIABLE){
+            NumExpr* _variable = numExprManager.makeVariable(tokenItr->word);
+            safe_next(tokenItr);
+            return _variable;
+        }
+
+        std::stringstream _tmp{};
+        _tmp << "Token inaspettato";
+        throw ParseError(_tmp.str());
+    } else {
+        safe_next(tokenItr);
+
+        Operator::OpCode _opCode = TokenHelper::tokenToOpCode(tokenItr->tag);
+
+        safe_next(tokenItr);
+
+        NumExpr* _left = recursiveParseNumExpr(tokenItr);
+        NumExpr* _right = recursiveParseNumExpr(tokenItr);
+
+        if (tokenItr->tag != Token::RP) {
+            std::stringstream _tmp{};
+            _tmp << "Mancanza di RP";
+            throw ParseError(_tmp.str());
+        }
+
+        return numExprManager.makeOperator(_opCode, _left, _right);
+    }
+}
+
+
+BoolExpr* Parser::recursiveParseBoolExpr(std::vector<Token>::const_iterator &tokenItr) {
+    if (tokenItr->tag != Token::LP) {
+
+        if (tokenItr->tag == Token::TRUE || tokenItr->tag == Token::FALSE){
+            BoolExpr* _boolExpr = boolExprManager.makeBoolConst((tokenItr->tag == Token::TRUE));
+            safe_next(tokenItr);
+            return _boolExpr;
+        }
+
+        std::stringstream _tmp{};
+        _tmp << "Token inaspettato";
+        throw ParseError(_tmp.str());
+    } else {
+        safe_next(tokenItr);
+
+        BoolExpr* _boolExpr = nullptr;
+
+        if (tokenItr->tag == Token::GT || tokenItr->tag == Token::LT || tokenItr->tag == Token::EQ){
+
+            RelOp::RelOpCode _op = TokenHelper::tokenToRelCode(tokenItr->tag);
+
+            safe_next(tokenItr);
+
+            NumExpr* _left = recursiveParseNumExpr(tokenItr);
+            NumExpr* _right = recursiveParseNumExpr(tokenItr);
+            _boolExpr = boolExprManager.makeRelOp(_op, _left, _right);
+
+        } else if (tokenItr->tag == Token::OR || tokenItr->tag == Token::AND) {
+
+            BoolOp::BoolOpCode _op = TokenHelper::tokenToBoolCode(tokenItr->tag);
+
+            safe_next(tokenItr);
+
+            BoolExpr* _left = recursiveParseBoolExpr(tokenItr);
+            BoolExpr* _right = recursiveParseBoolExpr(tokenItr);
+            _boolExpr = boolExprManager.makeBoolOp(_op, _left, _right);
+        } else if (tokenItr->tag == Token::NOT) {
+
+            safe_next(tokenItr);
+            BoolExpr* _left = recursiveParseBoolExpr(tokenItr);
+
+            _boolExpr = boolExprManager.makeBoolOp(BoolOp::NOT, _left);
+
+        } else {
+            std::stringstream _tmp{};
+            _tmp << "Errore definizione operatore Bool Expr";
+            throw ParseError(_tmp.str());
+        }
+
+        safe_next(tokenItr);
+
+        if (tokenItr->tag != Token::RP) {
+            std::stringstream _tmp{};
+            _tmp << "Mancanza di RP";
+            throw ParseError(_tmp.str());
+        }
+
+        return _boolExpr;
     }
 }

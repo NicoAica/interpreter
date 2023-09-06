@@ -6,7 +6,9 @@
 #define INTERPRETER_STATEMENT_H
 
 
-class Statement {
+#include "Block.h"
+
+class Statement{
 
 };
 

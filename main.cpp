@@ -4,6 +4,7 @@
 #include "Classes/Token/Tokenizer.h"
 #include "Classes/Error/Exceptions.h"
 #include "Classes/Manager/Manager.h"
+#include "Classes/Parser/Parser.h"
 
 int main(int argc, char* argv[]) {
 
@@ -44,15 +45,31 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    BlockManager blockManager;
-    BoolExprManager boolExpressionManager;
-    NumExprManager numberExpressionManager;
-    StatementManager statementManager;
-    ProgramManager programManager;
 
 
+    BlockManager _blockManager;
+    BoolExprManager _boolExprManager;
+    NumExprManager _numExprManager;
+    StatementManager _statementManager;
+    ProgramManager _programManager;
 
+    Parser parse{_numExprManager, _blockManager, _boolExprManager, _statementManager, _programManager};
 
+    try {
+        Program* _program = parse(inputTokens);
+    } catch (LexicalError& le) {
+        std::cerr << "Errore in fase di analisi lessicale" << std::endl;
+        std::cerr << le.what() << std::endl;
+        return EXIT_FAILURE;
+    } catch (ParseError& le) {
+        std::cerr << "Errore in fase di parser" << std::endl;
+        std::cerr << le.what() << std::endl;
+        return EXIT_FAILURE;
+    } catch (std::exception& exc) {
+        std::cerr << "Non posso leggere da " << argv[1] << std::endl;
+        std::cerr << exc.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
 
 

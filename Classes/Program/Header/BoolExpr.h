@@ -9,6 +9,12 @@
 #include "NumExpr.h"
 
 class BoolExpr {
+public:
+
+    explicit BoolExpr(bool value) : value{value} {};
+
+private:
+    bool value;
 
 };
 

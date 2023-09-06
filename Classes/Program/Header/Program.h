@@ -11,7 +11,7 @@
 class Program {
 
 public:
-    explicit Program(Block* b) : block{b} {}
+    Program(Block* b) : block{b} {}
 
 private:
     Block* block;

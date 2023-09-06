@@ -6,8 +6,17 @@
 #define INTERPRETER_VARIABLE_H
 
 
+#include <string>
+#include <utility>
+
 class Variable {
 
+public:
+
+    Variable(std::string _name): name{std::move(_name)} {};
+
+private:
+    std::string name;
 };
 
 

@@ -15,11 +15,11 @@ class Parser {
 public:
 
     Parser(
-            NumExprManager *_numExprManager,
-            BlockManager *_blockManager,
-            BoolExprManager *_boolExprManager,
-            StatementManager *_statementManager,
-            ProgramManager *_programManager
+            NumExprManager& _numExprManager,
+            BlockManager& _blockManager,
+            BoolExprManager& _boolExprManager,
+            StatementManager& _statementManager,
+            ProgramManager& _programManager
     ) :
     numExprManager{_numExprManager},
     blockManager{_blockManager},
@@ -39,15 +39,17 @@ public:
 private:
     std::vector<Token>::const_iterator streamEnd;
 
-    NumExprManager *numExprManager;
-    BlockManager *blockManager;
-    BoolExprManager *boolExprManager;
-    StatementManager *statementManager;
-    ProgramManager *programManager;
+    NumExprManager& numExprManager;
+    BlockManager& blockManager;
+    BoolExprManager& boolExprManager;
+    StatementManager& statementManager;
+    ProgramManager& programManager;
 
     Program *recursiveParse(std::vector<Token>::const_iterator &tokenItr);
     Block *recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr);
     Statement *recursiveParseStatement(std::vector<Token>::const_iterator &tokenItr);
+    NumExpr* recursiveParseNumExpr(std::vector<Token>::const_iterator &tokenItr);
+    BoolExpr* recursiveParseBoolExpr(std::vector<Token>::const_iterator &tokenItr);
 
     // Avanzamento "sicuro" di un iteratore
     void safe_next(std::vector<Token>::const_iterator &itr) {

@@ -10,7 +10,7 @@
 
 class BoolOp {
 public:
-     enum BoolOpCode {};
+     enum BoolOpCode {GT, LT, EQ, AND, OR, NOT, TRUE, FALSE};
 
      BoolOp(BoolOpCode o, BoolExpr* l, BoolExpr* r) : op{ o }, left{ l }, right{ r } { };
      BoolOp(BoolOpCode o, BoolExpr* l) : op{ o }, left{ l }, right{nullptr} { };

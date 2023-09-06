@@ -12,7 +12,7 @@ class Operator : public NumExpr {
 
 public:
 
-    enum OpCode { PLUS, MINUS, TIMES, DIV };
+    enum OpCode {ADD, SUB, MUL, DIV};
 
     Operator(OpCode o, NumExpr* lop, NumExpr* rop) :
             op{ o }, left{ lop }, right{ rop } { }

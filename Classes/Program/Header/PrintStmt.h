@@ -11,7 +11,7 @@
 class PrintStmt {
 public:
 
-    explicit PrintStmt(NumExpr* n) : number{n} {}
+    PrintStmt(NumExpr* n) : number{n} {}
 
 private:
     NumExpr* number;

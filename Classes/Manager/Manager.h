@@ -6,6 +6,7 @@
 #define INTERPRETER_MANAGER_H
 
 #include <vector>
+#include <string>
 
 #include "../Program/Header/NumExpr.h"
 #include "../Program/Header/Operator.h"
@@ -76,8 +77,8 @@ private:
 
 class BoolExprManager : public Manager {
 public:
-    BoolExpr* makeBoolConst() {
-        auto* b = new BoolExpr();
+    BoolExpr* makeBoolConst(bool value) {
+        auto* b = new BoolExpr(value);
         boolExprAllocated.push_back(b);
         return b;
     }
@@ -158,6 +159,12 @@ public:
 
     NumExpr* makeNumber(int value) {
         auto* n = reinterpret_cast<NumExpr *>(new Number(value));
+        numExprAllocated.push_back(n);
+        return n;
+    }
+
+    NumExpr* makeVariable(std::string name) {
+        auto* n = reinterpret_cast<NumExpr *>(new Variable(name));
         numExprAllocated.push_back(n);
         return n;
     }

@@ -6,7 +6,7 @@
 #define INTERPRETER_BLOCK_H
 
 
-class Block {
+class Block{
 
 };
 

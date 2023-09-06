@@ -10,8 +10,7 @@
 class RelOp {
 public:
 
-    // TODO da fare
-    enum RelOpCode { PLUS, MINUS, TIMES, DIV };
+    enum RelOpCode { LT, GT, EQ };
 
     RelOp(RelOpCode o, NumExpr* l, NumExpr* r) :
     op{ o }, left{ l }, right{ r } { }
