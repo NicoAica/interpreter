@@ -28,16 +28,21 @@ public:
     programManager{_programManager} {}
 
     Program *operator()(const std::vector<Token> &tokenStream) {
-        // Utilizzo auto per evitare di scrivere per esteso il tipo dell'iteratore
         auto tokenItr = tokenStream.begin();
         streamEnd = tokenStream.end();
+        streamStart = tokenStream.begin();
         Program *expr = recursiveParse(tokenItr);
-        // TODO: controllare se sono arrivato in fondo al token stream
+
+        if (tokenItr != (streamEnd - 1)){
+            throw ParseError("Troppi token");
+        }
+
         return expr;
     }
 
 private:
     std::vector<Token>::const_iterator streamEnd;
+    std::vector<Token>::const_iterator streamStart;
 
     NumExprManager& numExprManager;
     BlockManager& blockManager;
@@ -51,12 +56,15 @@ private:
     NumExpr* recursiveParseNumExpr(std::vector<Token>::const_iterator &tokenItr);
     BoolExpr* recursiveParseBoolExpr(std::vector<Token>::const_iterator &tokenItr);
 
-    // Avanzamento "sicuro" di un iteratore
     void safe_next(std::vector<Token>::const_iterator &itr) {
         if (itr == streamEnd) {
-            throw ParseError("Unexpected end of input");
+            throw ParseError("Inaspettata fine del programma");
         }
         ++itr;
+    }
+
+    void safe_back(std::vector<Token>::const_iterator &itr) {
+        --itr;
     }
 
 };
