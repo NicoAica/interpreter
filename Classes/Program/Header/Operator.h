@@ -8,6 +8,8 @@
 
 #include "NumExpr.h"
 
+class Visitor;
+
 class Operator : public NumExpr {
 
 public:
@@ -15,7 +17,13 @@ public:
     enum OpCode {ADD, SUB, MUL, DIV};
 
     Operator(OpCode o, NumExpr* lop, NumExpr* rop) :
-            op{ o }, left{ lop }, right{ rop } { }
+            op{ o }, left{ lop }, right{ rop } { };
+
+    NumExpr* getLeft(){ return left; }
+    NumExpr* getRight(){ return right; }
+    OpCode getCode(){ return op; }
+
+    void accept(Visitor *v);
 
 private:
     OpCode      op;

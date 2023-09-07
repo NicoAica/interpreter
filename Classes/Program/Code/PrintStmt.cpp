@@ -3,3 +3,9 @@
 //
 
 #include "../Header/PrintStmt.h"
+
+#include "../../Visitor/Visitor.h"
+
+void PrintStmt::accept(Visitor *v) {
+    v->visitPrint(this);
+}

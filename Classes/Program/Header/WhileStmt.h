@@ -8,11 +8,17 @@
 
 #include "BoolExpr.h"
 #include "Block.h"
+#include "Statement.h"
 
-class WhileStmt {
+class Visitor;
+
+
+class WhileStmt: public Statement {
 
 public:
     WhileStmt(BoolExpr* c, Block* b): condition{c}, block{b} {}
+
+    void accept(Visitor* v) override;
 
 private:
     BoolExpr* condition;

@@ -3,3 +3,8 @@
 //
 
 #include "../Header/WhileStmt.h"
+#include "../../Visitor/Visitor.h"
+
+void WhileStmt::accept(Visitor *v) {
+    v->visitWhile(this);
+}

@@ -3,3 +3,9 @@
 //
 
 #include "../Header/InputStmt.h"
+
+#include "../../Visitor/Visitor.h"
+
+void InputStmt::accept(Visitor *v) {
+    v->visitInput(this);
+}

@@ -8,12 +8,17 @@
 
 #include "Block.h"
 #include "BoolExpr.h"
+#include "Statement.h"
 
-class IfStmt {
+class Visitor;
+
+class IfStmt: public Statement{
 
 public:
     IfStmt(BoolExpr* c, Block* _true, Block* _false) :
-            trueBlock{ _true }, falseBlock{_false}, condition{c} {}
+            trueBlock{ _true }, falseBlock{_false}, condition{c} {};
+
+    void accept(Visitor* v) override;
 
 private:
     Block* trueBlock;

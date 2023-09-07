@@ -8,7 +8,7 @@
 
 #include "BoolExpr.h"
 
-class BoolOp {
+class BoolOp: public BoolExpr {
 public:
      enum BoolOpCode {GT, LT, EQ, AND, OR, NOT, TRUE, FALSE};
 

@@ -11,7 +11,8 @@
 class BoolExpr {
 public:
 
-    explicit BoolExpr(bool value) : value{value} {};
+     BoolExpr(bool value) : value{value} {};
+     BoolExpr() = default;
 
 private:
     bool value;

@@ -3,3 +3,8 @@
 //
 
 #include "../Header/Operator.h"
+#include "../../Visitor/Visitor.h"
+
+void Operator::accept(Visitor *v) {
+    v->visitOperator(this);
+}

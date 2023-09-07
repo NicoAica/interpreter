@@ -17,6 +17,9 @@ Program* Parser::recursiveParse(std::vector<Token>::const_iterator &tokenItr) {
 Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr){
 
     if (tokenItr->tag != Token::LP) {
+
+        // TODO verificare direttamente statement
+
         std::stringstream _tmp{};
         _tmp << "Mancanza di LP in Block";
         throw ParseError(_tmp.str());
@@ -27,11 +30,13 @@ Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr)
         if (TokenHelper::verifyStatementNotBlock(tokenItr->tag)){
             safe_back(tokenItr);
             _statement = recursiveParseStatement(tokenItr);
+            //_block->pushback(_statement);
         } else if (tokenItr->tag == Token::BLOCK){
             safe_next(tokenItr);
             do {
                 _statement = recursiveParseStatement(tokenItr);
                 safe_next(tokenItr);
+                //_block->pushback(_statement);
             } while (tokenItr->tag != Token::RP);
         } else {
             std::stringstream _tmp{};

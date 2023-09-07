@@ -8,11 +8,14 @@
 
 #include "Variable.h"
 #include "NumExpr.h"
+#include "Statement.h"
 
-class SetStmt {
+class SetStmt: public Statement {
 public:
 
     SetStmt(NumExpr* n, Variable* v) : number{n}, variable{v} {}
+
+    void accept(Visitor* v) override;
 
 private:
     NumExpr* number;

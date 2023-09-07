@@ -7,11 +7,16 @@
 
 
 #include "NumExpr.h"
+#include "Statement.h"
 
-class PrintStmt {
+class Visitor;
+
+class PrintStmt: public Statement {
 public:
 
     PrintStmt(NumExpr* n) : number{n} {}
+
+    void accept(Visitor* v) override;
 
 private:
     NumExpr* number;

@@ -13,6 +13,8 @@ class Program {
 public:
     Program(Block* b) : block{b} {}
 
+    Block* getBlock() { return block; }
+
 private:
     Block* block;
 };

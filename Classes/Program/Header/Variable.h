@@ -8,8 +8,9 @@
 
 #include <string>
 #include <utility>
+#include "NumExpr.h"
 
-class Variable {
+class Variable: public NumExpr {
 
 public:
 

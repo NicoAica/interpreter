@@ -3,3 +3,8 @@
 //
 
 #include "../Header/Block.h"
+#include "../../Visitor/Visitor.h"
+
+void Block::accept(Visitor *v) {
+    v->visitBlock(this);
+}

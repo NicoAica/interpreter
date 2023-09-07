@@ -3,3 +3,8 @@
 //
 
 #include "../Header/NumExpr.h"
+#include "../../Visitor/Visitor.h"
+
+void NumExpr::accept(Visitor *v) {
+
+}

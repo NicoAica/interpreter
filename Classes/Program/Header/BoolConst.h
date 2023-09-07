@@ -6,7 +6,9 @@
 #define INTERPRETER_BOOLCONST_H
 
 
-class BoolConst {
+#include "BoolExpr.h"
+
+class BoolConst: public BoolExpr {
 
 };
 

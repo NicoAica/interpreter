@@ -5,8 +5,11 @@
 #ifndef INTERPRETER_NUMEXPR_H
 #define INTERPRETER_NUMEXPR_H
 
+class Visitor;
 
 class NumExpr {
+
+    void accept(Visitor *v);
 
 };
 

@@ -5,10 +5,17 @@
 #ifndef INTERPRETER_STATEMENT_H
 #define INTERPRETER_STATEMENT_H
 
-
 #include "Block.h"
 
-class Statement{
+class Visitor;
+
+class Statement {
+
+public:
+    Statement() = default;
+
+    virtual void accept(Visitor* v) = 0;
+
 
 };
 

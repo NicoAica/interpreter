@@ -7,7 +7,7 @@
 
 #include "BoolExpr.h"
 
-class RelOp {
+class RelOp: public BoolExpr {
 public:
 
     enum RelOpCode { LT, GT, EQ };
