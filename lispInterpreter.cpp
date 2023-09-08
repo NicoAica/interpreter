@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 
 #include "Classes/Token/Tokenizer.h"
 #include "Classes/Error/Exceptions.h"
@@ -24,6 +25,13 @@ int main(int argc, char* argv[]) {
     } catch (std::exception& exc) {
         std::cerr << "Non posso aprire " << argv[1] << std::endl;
         std::cerr << exc.what() << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    std::uintmax_t fileSize = std::filesystem::file_size(argv[1]);
+
+    if (fileSize == 0) {
+        std::cerr << "Il file e' vuoto." << std::endl;
         return EXIT_FAILURE;
     }
 

@@ -22,9 +22,8 @@
 
 void Tokenizer::tokenizeInputFile(std::ifstream& inputFile, std::vector<Token>& inputTokens) {
 
-    char ch;
     std::string tmp;
-    ch = inputFile.get();
+    char ch = inputFile.get();
 
     while (!inputFile.eof()) {
         if (std::isspace(ch)){
