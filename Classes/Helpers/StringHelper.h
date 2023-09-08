@@ -2,6 +2,12 @@
 // Created by Nicolò Aicardi on 25/08/2023.
 //
 
+/*************
+ *                                                   String Helper
+ * In questo Helper vengono inseriti tutti quei metodi utili per la manipolazione di stringhe
+ *
+ *************/
+
 #ifndef INTERPRETER_STRINGHELPER_H
 #define INTERPRETER_STRINGHELPER_H
 

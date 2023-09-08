@@ -2,6 +2,18 @@
 // Created by nicol on 07/09/2023.
 //
 
+
+/*************
+ *                                                   Visitor
+ * Il visitor avrà il compito di visitare l'albero sintattico creato dal parser. In questo caso l'unico visito
+ * "utilizzabile" è quello che ha il compito di valutare e "eseguire" il codice LISP-like.
+ *
+ * Nel Evaluation Visitor sono stati inseriti dei metodi per la gestione degli accumulatori (sia di tipo numerico che
+ * booleano)
+ *
+ *************/
+
+
 #ifndef INTERPRETER_VISITOR_H
 #define INTERPRETER_VISITOR_H
 
@@ -19,6 +31,7 @@
 #include "../Program/Header/BoolConst.h"
 #include "../Program/Header/BoolOp.h"
 #include "../Manager/Manager.h"
+#include "../Manager/VariableManager.h"
 
 class Visitor {
 public:
@@ -30,9 +43,7 @@ public:
     virtual void  visitSet(SetStmt* _tmp) = 0;
     virtual void  visitInput(InputStmt* _tmp) = 0;
     virtual void  visitWhile(WhileStmt* _tmp) = 0;
-
     virtual void  visitIf(IfStmt* _tmp) = 0;
-
     virtual void  visitOperator(Operator* _tmp) = 0;
     virtual void  visitNumber(Number* _tmp) = 0;
     virtual void  visitVariable(Variable* _tmp) = 0;

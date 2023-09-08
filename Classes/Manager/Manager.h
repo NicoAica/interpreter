@@ -1,13 +1,22 @@
 //
-// Created by nicol on 25/08/2023.
+// Created by Nicolò Aicardi on 25/08/2023.
 //
+
+
+/*************
+ *                                                   Manager
+ * Il Manager sarà l'elemento del programma a cui verrà affidata la gestione della memorizzazione della struttura ad
+ * albero.
+ *
+ *************/
+
 
 #ifndef INTERPRETER_MANAGER_H
 #define INTERPRETER_MANAGER_H
 
+#include <utility>
 #include <vector>
 #include <string>
-#include <unordered_map>
 #include <sstream>
 
 #include "../Program/Header/NumExpr.h"
@@ -169,7 +178,7 @@ public:
     }
 
     NumExpr* makeVariable(std::string name) {
-        auto* n = reinterpret_cast<NumExpr *>(new Variable(name));
+        auto* n = reinterpret_cast<NumExpr *>(new Variable(std::move(name)));
         numExprAllocated.push_back(n);
         return n;
     }
@@ -182,30 +191,7 @@ private:
     std::vector<NumExpr*> numExprAllocated;
 };
 
-class VariableManager {
-public:
-    VariableManager() = default;
-    ~VariableManager() {
-        valueVector.clear();
-    }
 
-    void set_value(const std::string& _name, int value){
-        valueVector[_name] = value;
-    }
-
-    int get_value(const std::string& _name){
-        if (valueVector.find(_name) != valueVector.end()) {
-            return valueVector[_name];
-        } else {
-            std::stringstream _tmp{};
-            _tmp << "Tentativo di accesso a variabile non dichiarata";
-            throw EvaluationError(_tmp.str());
-        }
-    }
-
-
-    std::unordered_map<std::string, int> valueVector;
-};
 
 
 #endif //INTERPRETER_MANAGER_H

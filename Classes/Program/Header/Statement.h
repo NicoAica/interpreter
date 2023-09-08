@@ -1,5 +1,5 @@
 //
-// Created by nicol on 26/08/2023.
+// Created by Nicolò Aicardi on 26/08/2023.
 //
 
 #ifndef INTERPRETER_STATEMENT_H

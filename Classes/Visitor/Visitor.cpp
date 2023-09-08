@@ -2,6 +2,17 @@
 // Created by nicol on 07/09/2023.
 //
 
+
+/*************
+ *                                                   Visitor
+ * Il visitor avrà il compito di visitare l'albero sintattico creato dal parser. In questo caso l'unico visito
+ * "utilizzabile" è quello che ha il compito di valutare e "eseguire" il codice LISP-like.
+ *
+ * Nel Evaluation Visitor sono stati inseriti dei metodi per la gestione degli accumulatori (sia di tipo numerico che
+ * booleano)
+ *
+ *************/
+
 #include <sstream>
 #include <iostream>
 #include "Visitor.h"
@@ -48,7 +59,7 @@ void EvaVisitor::visitInput(InputStmt *_tmp) {
 
     if (!StringHelper::isNumber(_str)) {
         std::stringstream _out{};
-        _out << "L'input: " << _str << " non è stato riconosciuto come numero";
+        _out << "L'input: " << _str << " non e' stato riconosciuto come numero";
         throw EvaluationError(_out.str());
     }
 

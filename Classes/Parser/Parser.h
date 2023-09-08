@@ -2,6 +2,13 @@
 // Created by Nicolò Aicardi on 27/08/2023.
 //
 
+/*************
+ *                                                   Parser
+ * Il parser avrà il compito di costruire l'albero sintattico in maniera ricorsiva.
+ *
+ *************/
+
+
 #ifndef INTERPRETER_PARSER_H
 #define INTERPRETER_PARSER_H
 
@@ -30,7 +37,6 @@ public:
     Program *operator()(const std::vector<Token> &tokenStream) {
         auto tokenItr = tokenStream.begin();
         streamEnd = tokenStream.end();
-        streamStart = tokenStream.begin();
         Program *expr = recursiveParse(tokenItr);
 
         if (tokenItr != (streamEnd - 1)){
@@ -42,7 +48,6 @@ public:
 
 private:
     std::vector<Token>::const_iterator streamEnd;
-    std::vector<Token>::const_iterator streamStart;
 
     NumExprManager& numExprManager;
     BlockManager& blockManager;
@@ -61,10 +66,6 @@ private:
             throw ParseError("Inaspettata fine del programma");
         }
         ++itr;
-    }
-
-    void safe_back(std::vector<Token>::const_iterator &itr) {
-        --itr;
     }
 
 };

@@ -9,6 +9,8 @@
 
 int main(int argc, char* argv[]) {
 
+    /*+++++++++++++++ Richiesta File **************/
+
     if (argc < 2) {
         std::cerr << "File non specificato!" << std::endl;
         std::cerr << "Utilizzo: " << argv[0] << " <nome_file>" << std::endl;
@@ -29,8 +31,10 @@ int main(int argc, char* argv[]) {
     std::vector<Token> inputTokens;
 
     try {
-        inputTokens = std::move(tokenize(inputFile));
 
+        /*+++++++++++++++ Analisi Lessicale **************/
+
+        inputTokens = std::move(tokenize(inputFile));
 
         for (auto & inputToken : inputTokens) {
             std::cout << inputToken << std::endl;
@@ -58,7 +62,11 @@ int main(int argc, char* argv[]) {
     Parser parse{numExprManager, blockManager, boolExprManager, statementManager, programManager};
 
     try {
+
+        /*+++++++++++++++ Analisi Sintattica **************/
         Program* _program = parse(inputTokens);
+
+        /*+++++++++++++++ Analisi Semantica **************/
         auto* visitor = new EvaVisitor();
         _program->accept(visitor);
 

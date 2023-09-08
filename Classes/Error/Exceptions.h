@@ -2,6 +2,12 @@
 // Created by Nicolò Aicardi on 25/08/2023.
 //
 
+/*************
+ *                                                   Exception
+ * In questo file vengono definite delle eccezioni "custom" che verranno utilizzate nel codice
+ *
+ *************/
+
 #ifndef INTERPRETER_EXCEPTIONS_H
 #define INTERPRETER_EXCEPTIONS_H
 

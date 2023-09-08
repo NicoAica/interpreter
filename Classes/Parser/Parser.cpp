@@ -2,10 +2,15 @@
 // Created by Nicolò Aicardi on 27/08/2023.
 //
 
+/*************
+ *                                                   Parser
+ * Il parser avrà il compito di costruire l'albero sintattico in maniera ricorsiva.
+ *
+ *************/
+
 #include <string>
 #include <iostream>
 #include <algorithm>
-#include <sstream>
 
 #include "Parser.h"
 #include "../Helpers/TokenHelper.h"
@@ -26,7 +31,7 @@ Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr)
         Block* _block = blockManager.makeBlock();
         Statement* _statement = nullptr;
         if (TokenHelper::verifyStatementNotBlock(tokenItr->tag)){
-            safe_back(tokenItr);
+            --tokenItr;
             _statement = recursiveParseStatement(tokenItr);
             _block->emplace_back(_statement);
         } else if (tokenItr->tag == Token::BLOCK){

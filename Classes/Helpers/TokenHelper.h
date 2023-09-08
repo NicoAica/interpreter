@@ -1,6 +1,12 @@
 //
-// Created by nicol on 28/08/2023.
+// Created by Nicolò Aicardi on 28/08/2023.
 //
+
+/*************
+ *                                                   String Helper
+ * In questo Helper vengono inseriti tutti quei metodi utili per la manipolazione dei token
+ *
+ *************/
 
 #include "../Token/Token.h"
 
