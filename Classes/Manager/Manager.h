@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
+#include <sstream>
 
 #include "../Program/Header/NumExpr.h"
 #include "../Program/Header/Operator.h"
@@ -23,6 +25,9 @@
 #include "../Program/Header/PrintStmt.h"
 #include "../Program/Header/SetStmt.h"
 #include "../Program/Header/Program.h"
+
+#include "../Error/Exceptions.h"
+#include "../Program/Header/BoolConst.h"
 
 class Manager {
 public:
@@ -78,7 +83,7 @@ private:
 class BoolExprManager : public Manager {
 public:
     BoolExpr* makeBoolConst(bool value) {
-        auto* b = new BoolExpr(value);
+        auto* b = reinterpret_cast<BoolExpr *>(new BoolConst(value));
         boolExprAllocated.push_back(b);
         return b;
     }
@@ -176,5 +181,31 @@ public:
 private:
     std::vector<NumExpr*> numExprAllocated;
 };
+
+class VariableManager {
+public:
+    VariableManager() = default;
+    ~VariableManager() {
+        valueVector.clear();
+    }
+
+    void set_value(const std::string& _name, int value){
+        valueVector[_name] = value;
+    }
+
+    int get_value(const std::string& _name){
+        if (valueVector.find(_name) != valueVector.end()) {
+            return valueVector[_name];
+        } else {
+            std::stringstream _tmp{};
+            _tmp << "Accesso a variabile non inizializzata";
+            throw EvaluationError(_tmp.str());
+        }
+    }
+
+
+    std::unordered_map<std::string, int> valueVector;
+};
+
 
 #endif //INTERPRETER_MANAGER_H

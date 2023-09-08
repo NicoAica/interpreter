@@ -30,13 +30,13 @@ Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr)
         if (TokenHelper::verifyStatementNotBlock(tokenItr->tag)){
             safe_back(tokenItr);
             _statement = recursiveParseStatement(tokenItr);
-            //_block->pushback(_statement);
+            _block->emplace_back(_statement);
         } else if (tokenItr->tag == Token::BLOCK){
             safe_next(tokenItr);
             do {
                 _statement = recursiveParseStatement(tokenItr);
                 safe_next(tokenItr);
-                //_block->pushback(_statement);
+                _block->emplace_back(_statement);
             } while (tokenItr->tag != Token::RP);
         } else {
             std::stringstream _tmp{};
@@ -56,7 +56,6 @@ Statement* Parser::recursiveParseStatement(std::vector<Token>::const_iterator &t
         safe_next(tokenItr);
         Statement* _statement = nullptr;
 
-        std::cout << "Statement " << tokenItr->word << std::endl;
 
         switch (tokenItr->tag) {
             case Token::IF: {
@@ -71,9 +70,8 @@ Statement* Parser::recursiveParseStatement(std::vector<Token>::const_iterator &t
             }
             case Token::INPUT: {
                 safe_next(tokenItr);
-                Variable* _variable = nullptr; //recursiveParseVariable(tokenItr);
-                // TODO: introdurre le variabili
-                _statement = statementManager.makeInputStmt(_variable);
+                NumExpr* _variable = recursiveParseNumExpr(tokenItr);
+                _statement = statementManager.makeInputStmt(reinterpret_cast<Variable *>(_variable));
                 break;
             }
             case Token::PRINT: {
@@ -103,8 +101,6 @@ Statement* Parser::recursiveParseStatement(std::vector<Token>::const_iterator &t
                 throw LexicalError(_tmp.str());
             }
         }
-
-        std::cout << "Fine stat " << tokenItr->word << std::endl;
 
         if (tokenItr->tag != Token::RP) {
             std::stringstream _tmp{};
@@ -136,8 +132,6 @@ NumExpr* Parser::recursiveParseNumExpr(std::vector<Token>::const_iterator &token
         safe_next(tokenItr);
 
         Operator::OpCode _opCode = TokenHelper::tokenToOpCode(tokenItr->tag);
-
-        std::cout << "DIV passa" << std::endl;
 
         safe_next(tokenItr);
 
@@ -182,10 +176,7 @@ BoolExpr* Parser::recursiveParseBoolExpr(std::vector<Token>::const_iterator &tok
 
             NumExpr* _left = recursiveParseNumExpr(tokenItr);
 
-            std::cout << "in GT " << tokenItr->word << std::endl;
-
             NumExpr* _right = recursiveParseNumExpr(tokenItr);
-            std::cout << "in GT dopo 1 " << tokenItr->word << std::endl;
             _boolExpr = boolExprManager.makeRelOp(_op, _left, _right);
 
         } else if (tokenItr->tag == Token::OR || tokenItr->tag == Token::AND) {

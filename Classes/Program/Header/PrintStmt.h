@@ -18,6 +18,10 @@ public:
 
     void accept(Visitor* v) override;
 
+    NumExpr* get_value(){
+        return number;
+    }
+
 private:
     NumExpr* number;
 

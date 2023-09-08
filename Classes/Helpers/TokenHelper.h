@@ -42,8 +42,9 @@ public:
     static BoolOp::BoolOpCode tokenToBoolCode(int tag){
         BoolOp::BoolOpCode _op;
         switch (tag) {
-            case Token::GT: _op = BoolOp::OR; break;
-            case Token::LT: _op = BoolOp::AND; break;
+            case Token::OR: _op = BoolOp::OR; break;
+            case Token::NOT: _op = BoolOp::NOT; break;
+            case Token::AND: _op = BoolOp::AND; break;
             default:
                 std::stringstream _tmp{};
                 _tmp << "Errore inaspettato";

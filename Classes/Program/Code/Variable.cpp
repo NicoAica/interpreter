@@ -3,3 +3,9 @@
 //
 
 #include "../Header/Variable.h"
+
+#include "../../Visitor/Visitor.h"
+
+void Variable::accept(Visitor *v) {
+    v->visitVariable(this);
+}

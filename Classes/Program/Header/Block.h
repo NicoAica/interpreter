@@ -5,23 +5,27 @@
 #ifndef INTERPRETER_BLOCK_H
 #define INTERPRETER_BLOCK_H
 
+
 #include <vector>
 
 class Visitor;
-
-#include "Statement.h"
+class Statement;
 
 class Block {
 
 public:
     void accept(Visitor* v);
-/*
-    void push(Statement* _s) {
-        statement.push_back(_s);
+
+    void emplace_back(Statement* _tmp){
+        statement.emplace_back(_tmp);
     }
-*/
+
+    std::vector<Statement *> get_vector() {
+        return statement;
+    }
+
 private:
-    //std::vector<Statement *> statement;
+    std::vector<Statement *> statement;
 };
 
 

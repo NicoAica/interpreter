@@ -5,6 +5,7 @@
 #include "Classes/Error/Exceptions.h"
 #include "Classes/Manager/Manager.h"
 #include "Classes/Parser/Parser.h"
+#include "Classes/Visitor/Visitor.h"
 
 int main(int argc, char* argv[]) {
 
@@ -30,6 +31,7 @@ int main(int argc, char* argv[]) {
     try {
         inputTokens = std::move(tokenize(inputFile));
 
+
         for (auto & inputToken : inputTokens) {
             std::cout << inputToken << std::endl;
         }
@@ -47,22 +49,29 @@ int main(int argc, char* argv[]) {
 
 
 
-    BlockManager _blockManager;
-    BoolExprManager _boolExprManager;
-    NumExprManager _numExprManager;
-    StatementManager _statementManager;
-    ProgramManager _programManager;
+    BlockManager blockManager;
+    BoolExprManager boolExprManager;
+    NumExprManager numExprManager;
+    StatementManager statementManager;
+    ProgramManager programManager;
 
-    Parser parse{_numExprManager, _blockManager, _boolExprManager, _statementManager, _programManager};
+    Parser parse{numExprManager, blockManager, boolExprManager, statementManager, programManager};
 
     try {
         Program* _program = parse(inputTokens);
+        auto* visitor = new EvaVisitor();
+        _program->accept(visitor);
+
     } catch (LexicalError& le) {
         std::cerr << "Errore in fase di analisi lessicale" << std::endl;
         std::cerr << le.what() << std::endl;
         return EXIT_FAILURE;
     } catch (ParseError& le) {
         std::cerr << "Errore in fase di parser" << std::endl;
+        std::cerr << le.what() << std::endl;
+        return EXIT_FAILURE;
+    } catch (EvaluationError& le) {
+        std::cerr << "Errore in fase di valutazione" << std::endl;
         std::cerr << le.what() << std::endl;
         return EXIT_FAILURE;
     } catch (std::exception& exc) {

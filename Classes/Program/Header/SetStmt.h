@@ -17,6 +17,14 @@ public:
 
     void accept(Visitor* v) override;
 
+    Variable* get_variable() const {
+        return variable;
+    }
+
+    NumExpr* get_value() const {
+        return number;
+    }
+
 private:
     NumExpr* number;
     Variable* variable;

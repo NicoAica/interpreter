@@ -20,6 +20,18 @@ public:
 
     void accept(Visitor* v) override;
 
+    Block* get_true_block() {
+        return trueBlock;
+    }
+
+    Block* get_false_block() {
+        return falseBlock;
+    }
+
+    BoolExpr* get_condition() {
+        return condition;
+    }
+
 private:
     Block* trueBlock;
     Block* falseBlock;

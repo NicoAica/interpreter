@@ -18,6 +18,14 @@ class WhileStmt: public Statement {
 public:
     WhileStmt(BoolExpr* c, Block* b): condition{c}, block{b} {}
 
+    BoolExpr* get_condition(){
+        return condition;
+    }
+
+    Block* get_block() {
+        return block;
+    }
+
     void accept(Visitor* v) override;
 
 private:

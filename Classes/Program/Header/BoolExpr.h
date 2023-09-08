@@ -7,15 +7,13 @@
 
 
 #include "NumExpr.h"
+class Visitor;
 
 class BoolExpr {
 public:
-
-     BoolExpr(bool value) : value{value} {};
      BoolExpr() = default;
 
-private:
-    bool value;
+     virtual void accept(Visitor *v) = 0;
 
 };
 

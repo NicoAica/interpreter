@@ -8,12 +8,29 @@
 
 #include "BoolExpr.h"
 
+
+class Visitor;
+
 class BoolOp: public BoolExpr {
 public:
-     enum BoolOpCode {GT, LT, EQ, AND, OR, NOT, TRUE, FALSE};
+     enum BoolOpCode {AND, OR, NOT};
 
      BoolOp(BoolOpCode o, BoolExpr* l, BoolExpr* r) : op{ o }, left{ l }, right{ r } { };
      BoolOp(BoolOpCode o, BoolExpr* l) : op{ o }, left{ l }, right{nullptr} { };
+
+     void accept(Visitor* v) override;
+
+    BoolExpr* getLeft() {
+        return left;
+    }
+
+    BoolExpr* getRight() {
+        return right;
+    }
+
+    BoolOpCode getCode() {
+        return op;
+    }
 
 private:
      BoolOpCode op;

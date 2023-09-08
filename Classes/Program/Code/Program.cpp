@@ -3,3 +3,8 @@
 //
 
 #include "../Header/Program.h"
+#include "../../Visitor/Visitor.h"
+
+void Program::accept(Visitor *v) {
+    v->visitProgram(this);
+}

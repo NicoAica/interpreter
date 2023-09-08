@@ -3,3 +3,8 @@
 //
 
 #include "../Header/BoolOp.h"
+#include "../../Visitor/Visitor.h"
+
+void BoolOp::accept(Visitor *v) {
+    v->visitBoolOp(this);
+}

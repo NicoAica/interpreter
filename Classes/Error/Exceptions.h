@@ -18,6 +18,10 @@ struct ParseError : std::runtime_error {
     explicit ParseError(std::string msg) : std::runtime_error(msg.c_str()) { }
 };
 
+struct EvaluationError : std::runtime_error {
+    explicit EvaluationError(const char* msg) : std::runtime_error(msg) { }
+    explicit EvaluationError(std::string msg) : std::runtime_error(msg.c_str()) { }
+};
 
 
 #endif //INTERPRETER_EXCEPTIONS_H

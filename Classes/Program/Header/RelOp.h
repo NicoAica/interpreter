@@ -7,6 +7,8 @@
 
 #include "BoolExpr.h"
 
+class Visitor;
+
 class RelOp: public BoolExpr {
 public:
 
@@ -14,6 +16,20 @@ public:
 
     RelOp(RelOpCode o, NumExpr* l, NumExpr* r) :
     op{ o }, left{ l }, right{ r } { }
+
+    void accept(Visitor *v) override;
+
+    NumExpr* getLeft() {
+        return left;
+    }
+
+    NumExpr* getRight() {
+        return right;
+    }
+
+    RelOpCode getCode() {
+        return op;
+    }
 
 private:
     RelOpCode  op;

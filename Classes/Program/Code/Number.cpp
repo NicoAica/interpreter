@@ -3,3 +3,8 @@
 //
 
 #include "../Header/Number.h"
+#include "../../Visitor/Visitor.h"
+
+void Number::accept(Visitor *v) {
+    v->visitNumber(this);
+}

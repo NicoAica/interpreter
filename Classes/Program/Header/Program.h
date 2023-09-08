@@ -8,12 +8,17 @@
 
 #include "Block.h"
 
+class Visitor;
+
 class Program {
 
 public:
     Program(Block* b) : block{b} {}
 
     Block* getBlock() { return block; }
+
+    void accept(Visitor *v);
+
 
 private:
     Block* block;

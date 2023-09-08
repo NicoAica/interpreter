@@ -23,7 +23,7 @@ public:
     NumExpr* getRight(){ return right; }
     OpCode getCode(){ return op; }
 
-    void accept(Visitor *v);
+    void accept(Visitor *v) override;
 
 private:
     OpCode      op;

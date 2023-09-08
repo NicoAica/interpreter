@@ -18,6 +18,10 @@ public:
 
     void accept(Visitor* v) override;
 
+    Variable* get_value() {
+        return variable;
+    }
+
 private:
     Variable* variable;
 };

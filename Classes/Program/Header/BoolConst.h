@@ -8,8 +8,21 @@
 
 #include "BoolExpr.h"
 
+class Visitor;
+
 class BoolConst: public BoolExpr {
 
+public:
+    BoolConst(bool _value) : value{_value} {}
+
+    void accept(Visitor *v) override;
+
+    bool get_value(){
+        return value;
+    }
+
+private:
+    bool value;
 };
 
 

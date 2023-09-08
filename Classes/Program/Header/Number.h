@@ -7,6 +7,7 @@
 
 
 #include "NumExpr.h"
+class Visitor;
 
 class Number: public NumExpr {
 public:
@@ -17,6 +18,12 @@ public:
 
     Number(const Number& other) = default;
     Number& operator=(const Number& other) = default;
+
+    void accept(Visitor *v) override;
+
+    int get_value() const {
+        return value;
+    }
 
 private:
     int value;

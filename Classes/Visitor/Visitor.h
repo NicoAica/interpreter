@@ -18,6 +18,7 @@
 #include "../Program/Header/RelOp.h"
 #include "../Program/Header/BoolConst.h"
 #include "../Program/Header/BoolOp.h"
+#include "../Manager/Manager.h"
 
 class Visitor {
 public:
@@ -43,6 +44,9 @@ public:
 
 class EvaVisitor: public Visitor {
 public:
+
+    EvaVisitor() = default;
+
     void visitProgram(Program* _tmp) override;
     void visitBlock(Block* _tmp) override;
 
@@ -59,7 +63,29 @@ public:
     void visitBoolOp(BoolOp* _tmp) override;
 
 private:
-    std::vector<int> accumulator;
+    std::vector<int> _accumulatorNumber;
+    std::vector<bool> _accumulatorBoolean;
+    VariableManager variableManager;
+
+    int get_number() {
+        int val = _accumulatorNumber.back();
+        _accumulatorNumber.pop_back();
+        return val;
+    }
+
+    bool get_boolean() {
+        bool val = _accumulatorBoolean.back();
+        _accumulatorBoolean.pop_back();
+        return val;
+    }
+
+    void push_number(int val) {
+        _accumulatorNumber.push_back(val);
+    }
+
+    void push_boolean(bool val) {
+        _accumulatorBoolean.push_back(val);
+    }
 };
 
 

@@ -3,3 +3,9 @@
 //
 
 #include "../Header/RelOp.h"
+
+#include "../../Visitor/Visitor.h"
+
+void RelOp::accept(Visitor *v) {
+    v->visitRelOp(this);
+}

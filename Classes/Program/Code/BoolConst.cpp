@@ -3,3 +3,9 @@
 //
 
 #include "../Header/BoolConst.h"
+
+#include "../../Visitor/Visitor.h"
+
+void BoolConst::accept(Visitor *v) {
+    v->visitBoolConst(this);
+}
