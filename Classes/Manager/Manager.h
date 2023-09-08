@@ -198,7 +198,7 @@ public:
             return valueVector[_name];
         } else {
             std::stringstream _tmp{};
-            _tmp << "Accesso a variabile non inizializzata";
+            _tmp << "Tentativo di accesso a variabile non dichiarata";
             throw EvaluationError(_tmp.str());
         }
     }

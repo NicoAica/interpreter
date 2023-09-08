@@ -18,8 +18,6 @@ Block* Parser::recursiveParseBlock(std::vector<Token>::const_iterator &tokenItr)
 
     if (tokenItr->tag != Token::LP) {
 
-        // TODO verificare direttamente statement
-
         std::stringstream _tmp{};
         _tmp << "Mancanza di LP in Block";
         throw ParseError(_tmp.str());
