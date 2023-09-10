@@ -20,6 +20,10 @@ After compiling the program, it should be executed using the following command:
 
 In cmake-build-debug folder there's already inside a test file called **test.txt**
 
+## Other
+
+In the project there's also the UML schema called **UML.pdf**
+
 ## Abstract Grammar
 
 _Program_
@@ -69,4 +73,3 @@ sigdigit  → <b>1</b> | . . . | <b>9</b>
 rest      → digit rest | <b>ε</b>
 digit     → <b>0</b> | sigdigit
 </pre>
-
