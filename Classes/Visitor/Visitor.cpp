@@ -40,17 +40,13 @@ void EvaVisitor::visitBlock(Block *_tmp) {
 
 void EvaVisitor::visitPrint(PrintStmt *_tmp) {
     _tmp->get_value()->accept(this);
-    int val = get_number();
-    std::cout << val << std::endl;
+    std::cout << get_number() << std::endl;
 }
 
 void EvaVisitor::visitSet(SetStmt *_tmp) {
     std::string _str = _tmp->get_variable()->get_name();
     _tmp->get_value()->accept(this);
-
-    int val = get_number();
-
-    variableManager.set_value(_str, val);
+    variableManager.set_value(_str, get_number());
 }
 
 void EvaVisitor::visitInput(InputStmt *_tmp) {
@@ -112,21 +108,24 @@ void EvaVisitor::visitBoolOp(BoolOp *_tmp) {
         push_boolean(!get_boolean());
     } else {
         _tmp->getLeft()->accept(this);
-        _tmp->getRight()->accept(this);
-
-        int right_val = get_boolean();
         int left_val = get_boolean();
+
         switch (_tmp->getCode()) {
             case BoolOp::OR:
-                push_boolean(left_val || right_val);return;
+                if (left_val) { push_boolean(left_val); return; }
+                _tmp->getRight()->accept(this);
+                push_boolean(get_boolean()); return;
             case BoolOp::AND:
-                push_boolean(left_val && right_val);return;
+                if (!left_val){ push_boolean(left_val); return; }
+                _tmp->getRight()->accept(this);
+                push_boolean(get_boolean()); return;
             default:
                 std::stringstream _str{};
                 _str << "Operatore non riconosciuto";
                 throw EvaluationError(_str.str());
         }
     }
+
 }
 
 void EvaVisitor::visitNumber(Number *_tmp) {
