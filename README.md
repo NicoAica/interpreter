@@ -18,6 +18,8 @@ After compiling the program, it should be executed using the following command:
 
 *The command may vary slightly depending on the operating system and how the code is compiled.*
 
+In cmake-build-debug folder there's already inside a test file called **test.txt**
+
 ## Abstract Grammar
 
 _Program_
