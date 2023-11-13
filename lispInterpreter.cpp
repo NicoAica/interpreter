@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     /*+++++++++++++++ Richiesta File **************/
 
     if (argc < 2) {
-        std::cerr << "File non specificato!" << std::endl;
+        std::cerr << "ERROR File non specificato!" << std::endl;
         std::cerr << "Utilizzo: " << argv[0] << " <nome_file>" << std::endl;
         return EXIT_FAILURE;
     }
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     try {
         inputFile.open(argv[1]);
     } catch (std::exception& exc) {
-        std::cerr << "Non posso aprire " << argv[1] << std::endl;
+        std::cerr << "ERROR Non posso aprire " << argv[1] << std::endl;
         std::cerr << exc.what() << std::endl;
         return EXIT_FAILURE;
     }
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     std::uintmax_t fileSize = std::filesystem::file_size(argv[1]);
 
     if (fileSize == 0) {
-        std::cerr << "Il file e' vuoto." << std::endl;
+        std::cerr << "ERROR Il file e' vuoto." << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -44,17 +44,18 @@ int main(int argc, char* argv[]) {
 
         inputTokens = std::move(tokenize(inputFile));
 
+        /*
         for (auto & inputToken : inputTokens) {
             std::cout << inputToken << std::endl;
         }
-
+        */
 
     } catch (LexicalError& le) {
-        std::cerr << "Errore in fase di analisi lessicale" << std::endl;
+        std::cerr << "ERROR Errore in fase di analisi lessicale" << std::endl;
         std::cerr << le.what() << std::endl;
         return EXIT_FAILURE;
     } catch (std::exception& exc) {
-        std::cerr << "Non posso leggere da " << argv[1] << std::endl;
+        std::cerr << "ERROR Non posso leggere da " << argv[1] << std::endl;
         std::cerr << exc.what() << std::endl;
         return EXIT_FAILURE;
     }
@@ -79,19 +80,19 @@ int main(int argc, char* argv[]) {
         _program->accept(visitor);
 
     } catch (LexicalError& le) {
-        std::cerr << "Errore in fase di analisi lessicale" << std::endl;
+        std::cerr << "ERROR Errore in fase di analisi lessicale" << std::endl;
         std::cerr << le.what() << std::endl;
         return EXIT_FAILURE;
     } catch (ParseError& le) {
-        std::cerr << "Errore in fase di parser" << std::endl;
+        std::cerr << "ERROR Errore in fase di parser" << std::endl;
         std::cerr << le.what() << std::endl;
         return EXIT_FAILURE;
     } catch (EvaluationError& le) {
-        std::cerr << "Errore in fase di valutazione" << std::endl;
+        std::cerr << "ERROR Errore in fase di valutazione" << std::endl;
         std::cerr << le.what() << std::endl;
         return EXIT_FAILURE;
     } catch (std::exception& exc) {
-        std::cerr << "Non posso leggere da " << argv[1] << std::endl;
+        std::cerr << "ERROR Non posso leggere da " << argv[1] << std::endl;
         std::cerr << exc.what() << std::endl;
         return EXIT_FAILURE;
     }
